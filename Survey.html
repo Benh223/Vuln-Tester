@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Survey</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f8f9fa;
+      padding-top: 50px;
+    }
+
+    form {
+      display: inline-block;
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin: 25px 0 10px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    textarea {
+      width: 500px;
+      height: 100px;
+      padding: 10px 15px;
+      font-size: 18px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: vertical;
+      box-sizing: border-box;
+      line-height: 1.4;
+    }
+
+    button {
+      margin-top: 35px;
+      padding: 14px 30px;
+      font-size: 18px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Vulnerability Assessment</h1>
+
+  <form action="/submit-survey" method="POST">
+    <label for="question1">Question 1:</label>
+    <textarea id="question1" name="question1" required></textarea>
+
+    <label for="question2">Question 2:</label>
+    <textarea id="question2" name="question2" required></textarea>
+
+    <label for="question3">Question 3:</label>
+    <textarea id="question3" name="question3" required></textarea>
+
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+
+</body>
+</html>
+
+
+
+
+
