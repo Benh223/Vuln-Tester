@@ -1,5 +1,5 @@
 
-require('dotenv').config({ path:'VAP/.env'});
+require('dotenv').config({ path:'.env'});
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Load service account credentials
 const auth = new google.auth.GoogleAuth({
-  keyFile: 'VAP/credentials.json',
+  keyFile: 'credentials.json',
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 });
 
