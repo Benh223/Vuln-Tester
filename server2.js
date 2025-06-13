@@ -82,7 +82,7 @@ app.post('/submit', async (req, res) => {
 
     await transporter.sendMail(mailOptions);
     console.log('Email sent');
-    res.send('Thank you! Your survey has been recorded.');
+    res.sendFile(path.join(__dirname, 'VAP', 'public', 'thankyou.html'));
   } catch (error) {
     console.error('Error:', error);
     res.status(500).send('Failed to store data or send email.');
