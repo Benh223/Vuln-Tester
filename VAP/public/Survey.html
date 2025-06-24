@@ -177,10 +177,28 @@
       </div>
     </div>
 
-    <!-- Question 10 (paragraph) -->
     <div class="question">
-      <label for="question10">10. Is there anything else you’d like us to know about your current security concerns?</label>
-      <textarea id="question10" name="question10" required></textarea>
+      <label>10. Would you like to provide any additional context?</label>
+      <div class="options">
+        <label>
+        <input type="radio" name="question10" value="No" onclick="toggleTextbox(false)" required />
+        No
+        </label>
+        <label>
+        <input type="radio" name="question10" value="Yes" onclick="toggleTextbox(true)" />
+        Yes
+        </label>
+    </div>
+    <div id="extraContext" style="display:none; margin-top: 10px;">
+      <label for="question10_extra">Please share your thoughts:</label>
+      <textarea id="question10_extra" name="question10_extra"></textarea>
+      </div>
+    </div>
+
+<!-- ✅ Question 11: Open text box -->
+    <div class="question">
+      <label for="question11">11. Is there anything else you’d like us to know about your current security concerns?</label>
+      <textarea id="question11" name="question11" required></textarea>
     </div>
 
     <button type="submit">Submit Survey</button>
