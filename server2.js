@@ -52,7 +52,8 @@ async function appendToSheet(data) {
 app.post('/submit', async (req, res) => {
   const {
     email, question1, question2, question3, question4, question5,
-    question6, question7, question8, question9, question10
+    question6, question7, question8, question9,
+    question10, question10_extra, question11
   } = req.body;
 
   const timestamp = new Date().toLocaleString("en-US", {
@@ -67,7 +68,8 @@ app.post('/submit', async (req, res) => {
 
   const row = [
     timestamp, email, question1, question2, question3,
-    question4, question5, question6, question7, question8, question9, question10
+    question4, question5, question6, question7, question8,
+    question9, question10, question10_extra || '', question11 || ''
   ];
 
   try {
@@ -89,10 +91,11 @@ app.post('/submit', async (req, res) => {
   }
 });
 
-// Start server
+// Start server (only once!)
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
 
 
 
