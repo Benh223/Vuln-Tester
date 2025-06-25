@@ -69,7 +69,7 @@ app.post('/submit', async (req, res) => {
   const row = [
     timestamp, email, question1, question2, question3,
     question4, question5, question6, question7, question8,
-    question9, question10, question10_extra || '', question11 || ''
+    question9, question10_extra || '', question11 || ''
   ];
 
   try {
@@ -96,9 +96,3 @@ app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
 
-
-
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
