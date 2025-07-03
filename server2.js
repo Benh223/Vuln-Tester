@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'Survey.html'));
+  res.sendFile(path.join(__dirname, 'VAP', 'public', 'Survey.html'));
 });
 
 // Load service account credentials for Google Sheets
