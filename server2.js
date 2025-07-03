@@ -23,7 +23,7 @@ const transporter = nodemailer.createTransport({
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'Survey.html'));
+  res.sendFile(path.join(__dirname, 'VAP', 'public', 'Survey.html'));
 });
 
 // Load service account credentials
@@ -83,7 +83,7 @@ app.post('https://domain-tester.onrender.com/submit', async (req, res) => {
       question10, question10_extra, question11
     };
 
-    const python = spawn('python3', ['VAP/email_handler.py', JSON.stringify(surveyData)]);
+    const python = spawn('python3', ['email_handler.py', JSON.stringify(surveyData)]);
 
     python.stdout.on('data', (data) => {
       console.log(`PYTHON OUT: ${data}`);
