@@ -1,23 +1,23 @@
-import sys
+import os
 import json
+from flask import Flask, request, jsonify
 import smtplib
 from email.mime.text import MIMEText
-
-# Optional: use .env (if needed)
 from dotenv import load_dotenv
-import os
 
 load_dotenv()
 
 EMAIL_USER = os.getenv("EMAIL_USER")
 EMAIL_PASS = os.getenv("EMAIL_PASS")
 
-def response(data):
-    equipment = 0
-    training = 0
-    protocol = 0
+app = Flask(__name__)
+
+def analyze_survey(data):
+    equipment = training = protocol = 0
+
     for key, value in data.items():
         question = key.replace("_", " ").lower()
+        # Your scoring logic here, same as before
         if question == 'question1':
             if value == 'We do not have any trained security team on site at this time.':
                 training += 1
@@ -102,14 +102,9 @@ def response(data):
             elif value == 'A structured process logs issues and distributes updates to all relevant stakeholders.':
                 protocol += 4
 
-    
-    new_list = [equipment, training, protocol]
-    if min(new_list) == equipment:
-        return 'equipment is the lowest'
-    elif min(new_list) == training:
-        return 'Training is the lowest'
-    elif min(new_list) == protocol:
-        return 'protocol is the lowest'
+    scores = {'equipment': equipment, 'training': training, 'protocol': protocol}
+    lowest = min(scores, key=scores.get)
+    return f"{lowest.capitalize()} is the lowest"
 
 def send_email(to_email, result_summary):
     msg = MIMEText(f"Survey analysis result:\n\n{result_summary}")
@@ -125,25 +120,21 @@ def send_email(to_email, result_summary):
     except Exception as e:
         print(f"Email sending failed: {e}")
 
+@app.route('/email', methods=['POST'])
+def handle_email():
+    try:
+        data = request.get_json()
+        if not data or 'email' not in data:
+            return jsonify({'error': 'Invalid data or missing email'}), 400
+
+        result = analyze_survey(data)
+        send_email(data['email'], result)
+        return jsonify({'message': 'Email sent', 'result': result}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("No data received.")
-        sys.exit(1)
-
-    try:
-        raw_input = sys.argv[1]
-        survey_data = json.loads(raw_input)
-
-        
-        summary = response(survey_data)
-        
-
-        # Send email to the respondent
-        send_email(survey_data['email'], summary)
-
-    except Exception as e:
-        print(f"Failed to process survey data: {e}")
+    app.run(host='0.0.0.0', port=5000)
 
 
 
