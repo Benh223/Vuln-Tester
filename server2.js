@@ -25,6 +25,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'VAP', 'public', 'index.html'));
 });
 
+app.get('/survey', (req, res) => {
+  res.sendFile(path.join(__dirname, 'VAP', 'public', 'Survey.html'));
+});
+
 // Google Sheets auth setup
 const auth = new google.auth.GoogleAuth({
   keyFile: 'credentials.json',
