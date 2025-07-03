@@ -1,15 +1,16 @@
+
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const { google } = require('googleapis');
 const path = require('path');
-const nodemailer = require('nodemailer');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Email transport
+const nodemailer = require('nodemailer');
+
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -20,14 +21,12 @@ const transporter = nodemailer.createTransport({
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'VAP', 'public')));
 
-// Route for homepage
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'VAP', 'public', 'Survey.html'));
+  res.sendFile(path.join(__dirname, 'public', 'Survey.html'));
 });
 
-// Google Sheets setup
+// Load service account credentials
 const auth = new google.auth.GoogleAuth({
   keyFile: 'credentials.json',
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
@@ -40,7 +39,7 @@ async function appendToSheet(data) {
 
   await sheets.spreadsheets.values.append({
     spreadsheetId,
-    range: 'Sheet1!A1',
+    range: 'Sheet1!A1', // Change sheet name if different
     valueInputOption: 'RAW',
     resource: {
       values: [data],
@@ -48,12 +47,11 @@ async function appendToSheet(data) {
   });
 }
 
-// Handle form submission
 app.post('/submit', async (req, res) => {
   const {
     email, question1, question2, question3, question4, question5,
-    question6, question7, question8, question9,
-    question10, question10_extra, question11
+    question6, question7, question8, question9, question10,
+    question10_extra, question11
   } = req.body;
 
   const timestamp = new Date().toLocaleString("en-US", {
@@ -69,30 +67,41 @@ app.post('/submit', async (req, res) => {
   const row = [
     timestamp, email, question1, question2, question3,
     question4, question5, question6, question7, question8,
-    question9, question10_extra || '', question11 || ''
+    question9, question10, question10_extra || '', question11 || ''
   ];
 
   try {
     await appendToSheet(row);
 
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: 'Survey Assessment Confirmation',
-      text: `Thanks for completing our survey on ${timestamp}. A Draco member will contact you shortly.`,
+    // Send to Python
+    const { spawn } = require('child_process');
+    const surveyData = {
+      timestamp,
+      email,
+      question1, question2, question3, question4, question5,
+      question6, question7, question8, question9,
+      question10, question10_extra, question11
     };
 
-    await transporter.sendMail(mailOptions);
-    console.log('Email sent');
-    res.sendFile(path.join(__dirname, 'VAP', 'public', 'thankyou.html'));
+    const python = spawn('python3', ['VAP/email_handler.py', JSON.stringify(surveyData)]);
+
+    python.stdout.on('data', (data) => {
+      console.log(`PYTHON OUT: ${data}`);
+    });
+
+    python.stderr.on('data', (data) => {
+      console.error(`PYTHON ERR: ${data}`);
+    });
+
+    res.send('Thank you! Your survey has been recorded.');
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).send('Failed to store data or send email.');
+    console.error('Google Sheets Error:', error);
+    res.status(500).send('Failed to process survey.');
   }
 });
 
-// Start server (only once!)
+
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
-
