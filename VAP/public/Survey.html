@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Security Survey</title>
+  <title>Survey Form</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -79,7 +79,7 @@
 
   <h1>Security Survey</h1>
 
-  <form action="https://domain-tester.onrender.com/submit" method="POST">
+  <form action="/submit" method="POST">
     <label for="email">Your Email:</label>
     <input type="email" id="email" name="email" required />
 
@@ -177,15 +177,25 @@
       </div>
     </div>
 
-   <div class="question">
+    <div class="question">
       <label>10. Are you a MISBO organization?</label>
       <div class="options">
-        <label><input type="radio" name="question10" value="No" onclick="toggleTextbox(false)" required /> No</label>
-        <label><input type="radio" name="question10" value="Yes" onclick="toggleTextbox(true)" /> Yes</label>
+        <label>
+          <input type="radio" name="question10" value="No" onclick="toggleTextbox(false)" required />
+          No
+        </label>
+        <label>
+          <input type="radio" name="question10" value="Yes" onclick="toggleTextbox(true)" />
+          Yes
+        </label>
       </div>
-      <div id="extraContext" style="visibility: hidden; height: 0; overflow: hidden; margin-top: 10px;">
+      <div id="extraContext" style="display:none; margin-top: 10px;">
         <label for="question10_extra">Enter code here:</label>
-        <textarea id="question10_extra" name="question10_extra" style="height: 25px; min-height: 25px; resize: none;"></textarea>
+        <textarea
+  id="question10_extra"
+  name="question10_extra"
+  style="height: 15px !important; min-height: 15px !important; resize: none;"
+></textarea>
       </div>
     </div>
 
@@ -201,16 +211,10 @@
   <script>
     function toggleTextbox(show) {
       const box = document.getElementById('extraContext');
-      if (show) {
-        box.style.visibility = 'visible';
-        box.style.height = 'auto';
-      } else {
-        box.style.visibility = 'hidden';
-        box.style.height = '0';
-      }
+      box.style.display = show ? 'block' : 'none';
     }
 
-    // On page load, check if "Yes" is selected
+    // On load: restore visibility if "Yes" was selected
     window.addEventListener('DOMContentLoaded', () => {
       const yesOption = document.querySelector('input[name="question10"][value="Yes"]');
       if (yesOption && yesOption.checked) {
@@ -220,3 +224,4 @@
   </script>
 </body>
 </html>
+
