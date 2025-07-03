@@ -125,7 +125,7 @@ async function sendSurveyEmail(toEmail, surveyData) {
 }
 
 // Handle survey POST
-app.post('https://vuln-tester.onrender.com/submit', async (req, res) => {
+app.post('/submit', async (req, res) => {
   const {
     email, question1, question2, question3, question4, question5,
     question6, question7, question8, question9, question10,
