@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve Survey.html
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'VAP', 'public', 'Survey.html'));
+  res.sendFile(path.join(__dirname, 'VAP', 'public', 'index.html'));
 });
 
 // Google Sheets auth setup
