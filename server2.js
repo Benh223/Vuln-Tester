@@ -156,11 +156,15 @@ app.post('/submit', async (req, res) => {
       question6, question7, question8, question9,
     });
 
-    res.send('Thank you! Your survey has been recorded.');
+    res.redirect('/thankyou.html');
   } catch (error) {
-    console.error('Error processing survey:', error);
-    res.status(500).send('Failed to process survey.');
-  }
+  console.error('Error processing survey:', error);
+  res.status(500).send('Failed to process survey.');
+  } 
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
 
 app.listen(PORT, () => {
