@@ -3,81 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Survey Form</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f2f5;
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    h1 {
-      margin-bottom: 30px;
-    }
-
-    form {
-      background: white;
-      padding: 30px;
-      border-radius: 8px;
-      max-width: 700px;
-      width: 100%;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .question {
-      display: flex;
-      flex-direction: column;
-    }
-
-    label {
-      font-weight: bold;
-      margin-bottom: 6px;
-    }
-
-    .options label {
-      font-weight: normal;
-      display: block;
-      margin: 4px 0;
-    }
-
-    input[type="email"],
-    textarea {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    button {
-      padding: 12px;
-      font-size: 16px;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #218838;
-    }
-  </style>
+  <title>Security Survey</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div class="logo-container">
+    <!-- 🛡️ Your Logo Goes Here -->
+    <img src="White-Dragon-on-black-bg.jpg" alt="Organization Logo" class="logo" />
+  </div>
 
-  <h1>Security Survey</h1>
+  <h1>Security Posture</h1>
 
   <form action="https://vuln-tester.onrender.com/submit" method="POST">
     <label for="email">Your Email:</label>
@@ -177,32 +112,10 @@
       </div>
     </div>
 
-    <div class="question">
-      <label>10. Are you a MISBO organization?</label>
-      <div class="options">
-        <label>
-          <input type="radio" name="question10" value="No" onclick="toggleTextbox(false)" required />
-          No
-        </label>
-        <label>
-          <input type="radio" name="question10" value="Yes" onclick="toggleTextbox(true)" />
-          Yes
-        </label>
-      </div>
-      <div id="extraContext" style="display:none; margin-top: 10px;">
-        <label for="question10_extra">Enter code here:</label>
-        <textarea
-  id="question10_extra"
-  name="question10_extra"
-  style="height: 15px !important; min-height: 15px !important; resize: none;"
-></textarea>
-      </div>
-    </div>
-
     <!-- Question 11 -->
     <div class="question">
-      <label for="question11">11. Is there anything else you’d like us to know about your current security concerns?</label>
-      <textarea id="question11" name="question11" required></textarea>
+      <label for="question10">10. Is there anything else you’d like us to know about your current security concerns?</label>
+      <textarea id="question10" name="question10" required></textarea>
     </div>
 
     <button type="submit">Submit Survey</button>
